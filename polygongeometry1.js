@@ -27,6 +27,7 @@ function PolygonGeometry(sides) {
 		// YOUR CODE HERE
         //Save the vertex location - fill in the code
         geo.vertices.push(new THREE.Vector3( x, y, 0.0) );
+	
 
 	}
     // YOUR CODE HERE

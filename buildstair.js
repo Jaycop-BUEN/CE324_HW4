@@ -24,6 +24,8 @@ function createStairs() {
 	var stepMaterialHorizontal = new THREE.MeshLambertMaterial( { 
 		color: 0xBC7349 
 	} );
+	
+
 
 	var stepWidth = 500;
 	var stepSize = 200;
@@ -31,8 +33,9 @@ function createStairs() {
 	// height from top of one step to bottom of next step up
 	var verticalStepHeight = stepSize;
 	var horizontalStepDepth = stepSize*2;
-
+	
 	var stepHalfThickness = stepThickness/2;
+	
 	
 	// +Y direction is up
 	// Define the two pieces of the step, vertical and horizontal
@@ -41,23 +44,36 @@ function createStairs() {
 	var stepHorizontal = new THREE.CubeGeometry(stepWidth, stepThickness, horizontalStepDepth);
 	var stepMesh;
 
+	var CubeLoop = 6;
+	var cube = 0;
+	while(cube < CubeLoop){
 	// Make and position the vertical part of the step
 	stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
+	
 	// The position is where the center of the block will be put.
 	// You can define position as THREE.Vector3(x, y, z) or in the following way:
 	stepMesh.position.x = 0;			// centered at origin
-	stepMesh.position.y = verticalStepHeight/2;	// half of height: put it above ground plane
-	stepMesh.position.z = 0;			// centered at origin
+	stepMesh.position.y = verticalStepHeight/2 + 
+			cube * (verticalStepHeight+stepThickness);	// half of height: put it above ground plane
+	stepMesh.position.z = cube * (horizontalStepDepth - stepThickness);			// centered at origin
 	scene.add( stepMesh );
+
+	
 
 	// Make and position the horizontal part
 	stepMesh = new THREE.Mesh( stepHorizontal, stepMaterialHorizontal );
 	stepMesh.position.x = 0;
+	
 	// Push up by half of horizontal step's height, plus vertical step's height
-	stepMesh.position.y = stepThickness/2 + verticalStepHeight;
+	stepMesh.position.y = stepThickness/2 + verticalStepHeight + 
+			cube * (verticalStepHeight +stepThickness);
 	// Push step forward by half the depth, minus half the vertical step's thickness
-	stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness;
-	scene.add( stepMesh );
+	stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness + 
+			cube *(horizontalStepDepth - stepThickness);
+	scene.add( stepMesh ); 
+	cube++;
+	}
+
 }
 
 function createCup() {
